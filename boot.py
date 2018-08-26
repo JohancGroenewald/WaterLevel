@@ -1,0 +1,1 @@
+# This file is executed on every boot (including wake-boot from deepsleep)#import esp#esp.osdebug(None)import webreplimport wififrom config import CONFIGwebrepl.start()wifi.WiFi(CONFIG).connect()
