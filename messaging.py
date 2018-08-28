@@ -1,3 +1,4 @@
+import json
 from umqtt_robust import MQTTClient
 
 
@@ -22,16 +23,17 @@ class Messaging:
                 client_id=self.device_id, server=self.config['mqtt']['ip'], port=self.config['mqtt']['port']
             )
             self.mqtt.connect()
-            self.publish('{} connected'.format(self.config['device']['name']))
+            message = {'state': 'connected'}
+            self.publish(message)
 
     def publish(self, message):
-        self.mqtt.publish(self.config['mqtt']['topic'], message)
+        message['device_name'] = self.config['device']['name']
+        self.mqtt.publish(self.config['mqtt']['topic'], json.dumps(message))
 
     def disconnect(self):
         if self.mqtt:
-            self.mqtt.publish(
-                self.config['mqtt']['topic'], '{} disconnected'.format(self.config['device']['name'])
-            )
+            message = {'state': 'disconnected'}
+            self.publish(message)
             self.mqtt.disconnect()
             self.mqtt = None
 

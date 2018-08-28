@@ -1,10 +1,3 @@
-"""
-This module provides functionality for the following:
-1.  Search for the current water level.
-    To be done at start-up or when the water level fluctuate unreasonably
-    Two
-2.  Track the
-"""
 import time
 import math
 from hcsr04 import HCSR04
@@ -12,7 +5,8 @@ from hcsr04 import HCSR04
 
 # noinspection PyUnresolvedReferences,PyArgumentList
 class WaterLevel:
-    def __init__(self, config):
+    def __init__(self, config, verbose=0):
+        self.verbose = verbose
         self.config = config
         self.ultrasound = HCSR04(
             trigger_pin=config['pinout']['ultrasound']['trig_pin'],
@@ -56,12 +50,16 @@ class WaterLevel:
                 self.level_queue.append(new_level)
                 if len(self.level_queue) > self.queue_depth:
                     self.level_queue = self.level_queue[1:]
-                print(self.level_queue)
+                if self.verbose:
+                    print('level_queue {}'.format(self.level_queue))
                 return True
         return False
 
     def level(self):
-        return self.level_queue[-1] if self.level_queue else -1
+        return {
+            'water_level': self.level_queue[-1] if self.level_queue else 0,
+            'raw_history': self.level_queue
+        }
 
     def calibrated(self):
         return self._calibrated

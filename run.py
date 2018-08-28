@@ -15,10 +15,10 @@ class RunLoop:
         # ------------------------------------------------------------------------------------------------------------ #
         # Initialise required services
         self.led = led.Led(self.config['pinout']['led'])
-        self.wifi = WiFi(self.config, verbose=verbose)
+        self.wifi = WiFi(self.config, verbose=self.verbose)
         self.device_id = self.wifi.device_id()
         self.messaging = Messaging(self.config, self.device_id)
-        self.water_level = WaterLevel(self.config)
+        self.water_level = WaterLevel(self.config, verbose=self.verbose)
         # ------------------------------------------------------------------------------------------------------------ #
         if self.verbose:
             print('<{} with id {}>'.format(self.config['device']['name'], self.device_id))
@@ -51,18 +51,15 @@ class RunLoop:
                 if not self.water_level.calibrated():
                     self.water_level.calibrate()
                 elif self.water_level.read():
-                    # m = 'water_level: {}mm'.format(self.water_level.level())
-                    m = str(self.water_level.level())
-                    self.messaging.publish(m)
-                pass
+                    self.messaging.publish(self.water_level.level())
             elif self.wifi.connecting():
-                self.led.toggle(250)            # Connected feedback
+                self.led.toggle(250)
             elif not self.wifi.connected():
                 self.wifi.connect()
                 if self.wifi.connected():
                     self.on_wifi_connected()
             # ======================================================================================================== #
-            time.sleep_ms(20)                   # Reduce the tightness of the run loop
+            time.sleep_ms(20)  # Reduce the tightness of the run loop
             # ======================================================================================================== #
         if self.verbose:
             print('Run loop exited')
