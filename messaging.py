@@ -7,6 +7,15 @@ class Messaging:
         self.device_id = device_id
         self.mqtt = None
 
+    def __repr__(self):
+        return '<Messaging: {}, {}, {}:{} at {:x}>'.format(
+            self.device_id,
+            'MQTT',
+            self.config['mqtt']['ip'],
+            self.config['mqtt']['port'],
+            id(self)
+        )
+
     def connect(self):
         if self.mqtt is None:
             self.mqtt = MQTTClient(
@@ -24,3 +33,7 @@ class Messaging:
                 self.config['mqtt']['topic'], '{} disconnected'.format(self.config['device']['name'])
             )
             self.mqtt.disconnect()
+            self.mqtt = None
+
+    def connected(self):
+        return self.mqtt is not None

@@ -9,11 +9,17 @@ def run():
         'run',
         'led',
         'wifi',
+        'waterlevel',
+        'messaging',
         'umqtt_robust',
         'umqtt_simple',
         'socket',
         'usocket',
         'network',
+        'hcsr04',
+        'listmodules',
+        'listfiles',
+        'cat',
         'done '         # Not a module. REPL feedback only
     ]
     message = 'Unloading application module ... '
@@ -32,4 +38,8 @@ def run():
     print('\nRunning the GC ... ', end='')
     gc.collect()
     print('done')
-    del sys.modules['unload']
+    if 'unload' in sys.modules:
+        del sys.modules['unload']
+
+
+run()

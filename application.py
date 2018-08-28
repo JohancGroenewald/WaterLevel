@@ -22,4 +22,3 @@ except Exception as e:
 finally:
     run_loop.close()
     import unload
-    unload.run()
