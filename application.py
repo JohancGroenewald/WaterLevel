@@ -21,6 +21,5 @@ except Exception as e:
     sys.print_exception(e)
 finally:
     run_loop.close()
-
-import unload
-unload.run()
+    import unload
+    unload.run()

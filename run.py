@@ -34,6 +34,7 @@ class RunLoop:
         if self.verbose:
             print('Run loop started')
         while not self.exit:
+            # ======================================================================================================== #
             self.led.poll()
             # -------------------------------------------------------------------------------------------------------- #
             if self.wifi.connected():
@@ -45,8 +46,9 @@ class RunLoop:
                 self.wifi.connect()
             # -------------------------------------------------------------------------------------------------------- #
 
-            # -------------------------------------------------------------------------------------------------------- #
+            # ======================================================================================================== #
             time.sleep_ms(20)                   # Reduce the tightness of the run loop
+            # ======================================================================================================== #
         if self.verbose:
             print('Run loop exited')
 
@@ -58,7 +60,7 @@ class RunLoop:
         # close pump
         if self.messaging:
             self.messaging.disconnect()
-        if self.wifi:
-            self.wifi.disconnect()
+        # if self.wifi:
+        #     self.wifi.disconnect()            # Don't do this, you will loose connection to the REPL
         if self.verbose:
             print('Run loop closed')
