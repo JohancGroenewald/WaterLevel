@@ -25,6 +25,7 @@ class WaterLevel:
         self.level_average = 0
         self.level_percentile = 0.0
         self.level_volume = 0
+        self.level_readings = 0
 
     def __repr__(self):
         return '<WaterLevel: {}, {}mm, {}L at {:x}>'.format(
@@ -48,17 +49,19 @@ class WaterLevel:
             interval = ticked - self.start
             if interval >= self.read_interval:
                 self.start = ticked
+                self.level_readings += 1
                 new_level = self.tank_height - self.ultrasound.distance_mm()
                 new_level = 0 if new_level < 0 else self.tank_height if new_level > self.tank_height else new_level
                 # >> Smoothing function
-                if self.level_queue and abs(new_level - self.level_queue[-1]) > self.queue_depth:
+                corrected = '-'
+                if self.level_queue and abs(new_level - self.level_queue[-1]) > (self.level_queue[-1] * 0.7):
+                    corrected = new_level
                     new_level = self.level_queue[-1]
                 # << Smoothing function
                 self.level_queue.append(new_level)
                 if len(self.level_queue) > self.queue_depth:
                     self.level_queue = self.level_queue[1:]
                 # >> Smoothing function
-                delta = (max(self.level_queue) - min(self.level_queue))
                 deltas = [
                     max(self.level_queue) - level
                     for level in self.level_queue
@@ -68,11 +71,15 @@ class WaterLevel:
                 self.level_percentile = self.level_average / self.tank_height
                 self.level_volume = self.tank_volume * self.level_percentile
                 if self.verbose:
-                    print('{}, avg: {}, per: {}, vol: {}, d: {}'.format(
-                        self.level_queue, self.level_average, self.level_percentile, self.level_volume,
-                        delta
+                    print('{}, cor: {}, avg: {}, per: {}, vol: {}, #: {}, {}'.format(
+                        corrected,
+                        self.level_queue,
+                        self.level_average,
+                        self.level_percentile,
+                        self.level_volume,
+                        self.level_readings,
+                        deltas
                     ))
-                    print(deltas)
                 return True
         return False
 
@@ -81,7 +88,8 @@ class WaterLevel:
             'level_history': self.level_queue,
             'level_average': self.level_average,
             'level_percentile': self.level_percentile,
-            'level_volume': self.level_volume
+            'level_volume': self.level_volume,
+            'level_readings': self.level_readings
         }
 
     def calibrated(self):

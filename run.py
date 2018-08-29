@@ -3,7 +3,7 @@ import led
 from wifi import WiFi
 from messaging import Messaging
 from waterlevel import WaterLevel
-
+from flowrate import FlowRate
 
 # noinspection PyUnresolvedReferences
 class RunLoop:
@@ -19,6 +19,7 @@ class RunLoop:
         self.device_id = self.wifi.device_id()
         self.messaging = Messaging(self.config, self.device_id)
         self.water_level = WaterLevel(self.config, verbose=self.verbose)
+        self.flow_rate = FlowRate(self.config, verbose=self.verbose)
         # ------------------------------------------------------------------------------------------------------------ #
         if self.verbose:
             print('<{} with id {}>'.format(self.config['device']['name'], self.device_id))
@@ -26,6 +27,7 @@ class RunLoop:
             print(self.wifi)
             print(self.messaging)
             print(self.water_level)
+            print(self.flow_rate)
         # Application ready feedback --------------------------------------------------------------------------------- #
         self.led.on(poll=True)
         time.sleep(2)
