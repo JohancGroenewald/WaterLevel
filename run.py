@@ -54,6 +54,10 @@ class RunLoop:
                     self.water_level.calibrate()
                 elif self.water_level.read():
                     self.messaging.publish(self.water_level.level())
+                if not self.flow_rate.calibrated():
+                    self.flow_rate.calibrate()
+                elif self.flow_rate.read():
+                    self.messaging.publish(self.flow_rate.rate())
             elif self.wifi.connecting():
                 self.led.toggle(250)
             elif not self.wifi.connected():
@@ -70,8 +74,10 @@ class RunLoop:
         self.exit = True
         if self.led:
             self.led.close()
-        # close ultrasound
-        # close pump
+        if self.water_level:
+            self.water_level.close()
+        if self.flow_rate:
+            self.flow_rate.close()
         if self.messaging:
             self.messaging.disconnect()
         # if self.wifi:

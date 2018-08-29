@@ -10,6 +10,7 @@ def run():
         'led',
         'wifi',
         'waterlevel',
+        'FlowRate',
         'messaging',
         'umqtt_robust',
         'umqtt_simple',

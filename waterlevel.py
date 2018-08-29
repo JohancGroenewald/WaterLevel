@@ -35,6 +35,9 @@ class WaterLevel:
             id(self)
         )
 
+    def calibrated(self):
+        return self._calibrated
+
     def calibrate(self):
         self._calibrated = True
         return self._calibrated
@@ -72,8 +75,8 @@ class WaterLevel:
                 self.level_volume = self.tank_volume * self.level_percentile
                 if self.verbose:
                     print('{}, cor: {}, avg: {}, per: {}, vol: {}, #: {}, {}'.format(
-                        corrected,
                         self.level_queue,
+                        corrected,
                         self.level_average,
                         self.level_percentile,
                         self.level_volume,
@@ -91,9 +94,6 @@ class WaterLevel:
             'level_volume': self.level_volume,
             'level_readings': self.level_readings
         }
-
-    def calibrated(self):
-        return self._calibrated
 
     def close(self):
         self._calibrated = False
