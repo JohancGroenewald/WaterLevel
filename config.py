@@ -16,9 +16,9 @@ MQTT_DEVELOPMENT = {
 }
 
 MQTT_THELAB = {
-    'ip': None,
-    'port': None,
-    'topic': None
+    'ip': '192.168.1.32',
+    'port': 0,
+    'topic': 'water_flow'
 }
 
 HCSR04 = {

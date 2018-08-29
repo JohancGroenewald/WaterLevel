@@ -65,7 +65,10 @@ class RunLoop:
                 if self.wifi.connected():
                     self.on_wifi_connected()
             # ======================================================================================================== #
-            time.sleep_ms(20)  # Reduce the tightness of the run loop
+            if self.flow_rate.reading():
+                time.sleep_ms(1)
+            else:
+                time.sleep_ms(20)  # Reduce the tightness of the run loop
             # ======================================================================================================== #
         if self.verbose:
             print('Run loop exited')
