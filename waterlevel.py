@@ -7,6 +7,7 @@ from hcsr04 import HCSR04
 class WaterLevel:
     def __init__(self, config, verbose=0):
         self.verbose = verbose
+        self.source = 'WaterLevel'
         self.config = config
         self.ultrasound = HCSR04(
             trigger_pin=config['pinout']['ultrasound']['trig_pin'],
@@ -28,7 +29,8 @@ class WaterLevel:
         self.level_readings = 0
 
     def __repr__(self):
-        return '<WaterLevel: {}, {}mm, {}L at {:x}>'.format(
+        return '<{}: {}, {}mm, {}L at {:x}>'.format(
+            self.source,
             self.tank_model,
             self.tank_height,
             self.tank_volume,
@@ -88,6 +90,7 @@ class WaterLevel:
 
     def level(self):
         return {
+            'source': self.source,
             'level_history': self.level_queue,
             'level_average': self.level_average,
             'level_percentile': self.level_percentile,
