@@ -17,11 +17,14 @@ class FlowRateMetered:
         self.queue_depth = 20
         self.flow_history = []
         self.flow_rate = 0.0
+        self.flow_rate_lpm = 0
         self.flow_readings = 0
         self.pulse = machine.Pin(
             self.pulse_pin, mode=machine.Pin.IN, pull=machine.Pin.PULL_UP
         )
         self.pulse_cycle = FlowRateRaw.PULSE_LOW
+        self.start_seconds = None
+        self.pulse_counter = 0
         self.start = 0
 
     def __repr__(self):
@@ -47,6 +50,9 @@ class FlowRateMetered:
             if self.pulse_cycle == FlowRateRaw.PULSE_LOW:
                 self.pulse_cycle = FlowRateRaw.PULSE_HIGH
                 self.start = utime.ticks_ms()
+                if self.start_seconds in None:
+                    self.start_seconds = utime.time()
+                    self.pulse_counter = 0
             elif self.pulse_cycle == FlowRateRaw.PULSE_HIGH:
                 pulse_width = utime.ticks_diff(utime.ticks_ms(), self.start)
                 if pulse_width > self.abandon_pulse:
@@ -59,6 +65,7 @@ class FlowRateMetered:
             if self.pulse_cycle == FlowRateRaw.PULSE_HIGH:
                 self.pulse_cycle = FlowRateRaw.PULSE_LOW
                 self.flow_readings += 1
+                self.pulse_counter += 1
                 pulse_width = utime.ticks_diff(utime.ticks_ms(), self.start)
                 # >> Smoothing function
                 # << Smoothing function
@@ -69,6 +76,9 @@ class FlowRateMetered:
                 return True
             elif self.pulse_cycle == FlowRateRaw.PULSE_ABANDON:
                 self.pulse_cycle = FlowRateRaw.PULSE_LOW
+        if self.start_seconds and (utime.time() - self.start_seconds) > 60:
+            self.flow_rate_lpm = self.pulse_counter * self.pulses_per_liter
+            self.start_seconds = None
         return False
 
     def rate(self):
@@ -76,6 +86,7 @@ class FlowRateMetered:
             'source': self.source,
             'flow_history': self.flow_history,
             'flow_rate': self.flow_rate,
+            'flow_rate_lpm': self.flow_rate_lpm,
             'flow_readings': self.flow_readings
         }
 

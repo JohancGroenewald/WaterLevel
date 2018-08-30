@@ -46,7 +46,7 @@ YF201 = {
 }
 
 LXSG_FX_20E = {
-    'pulse_pin': 34,
+    'pulse_pin': 27,
     'pulses_per_liter': 1,
     'abandon_pulse': 150,
     'metered': True
