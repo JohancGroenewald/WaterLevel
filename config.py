@@ -23,7 +23,14 @@ MQTT_THELAB = {
 
 HCSR04 = {
     'trig_pin': 32,
-    'echo_pin': 35
+    'echo_pin': 35,
+    'correction': 0
+}
+
+SR04T = {
+    'trig_pin': 14,
+    'echo_pin': 16,
+    'correction': 0
 }
 
 SSD1306 = {
@@ -33,7 +40,16 @@ SSD1306 = {
 
 YF201 = {
     'pulse_pin': 34,
-    'pulses_per_liter': 450
+    'pulses_per_liter': 450,
+    'abandon_pulse': 150,
+    'metered': False
+}
+
+LXSG_FX_20E = {
+    'pulse_pin': 34,
+    'pulses_per_liter': 1,
+    'abandon_pulse': 150,
+    'metered': True
 }
 
 JOJO_50LT_DRUM = {
@@ -60,7 +76,7 @@ CONFIG_DEVKIT = {
 PINOUT_DEVKIT = {
     'led': 2,
     'ultrasound': HCSR04,
-    'display': SSD1306,
+    'display': None,
     'flow_meter': YF201
 }
 # -------------------------------------------------------------------------------------------------------------------- #
@@ -68,18 +84,19 @@ CONFIG_THELAB_W1 = {
     'name': 'WaterTank1',
     'tank': JOJO_2500LT_MULTI_SLIM,
     'sensor_inclination': 0,
+    'read_interval_in_seconds': 5
 }
 
 PINOUT_THELAB_W1 = {
-    'led': 2,
-    'ultrasound': None,
+    'led': None,
+    'ultrasound': SR04T,
     'display': None,
-    'flow_meter': None
+    'flow_meter': LXSG_FX_20E
 }
 # -------------------------------------------------------------------------------------------------------------------- #
 CONFIG = {
-    'device': CONFIG_DEVKIT,
-    'pinout': PINOUT_DEVKIT,
+    'device': CONFIG_THELAB_W1,
+    'pinout': PINOUT_THELAB_W1,
     'wifi': [WIFI_DEVELOPMENT, WIFI_THELAB],
     'mqtt': MQTT_DEVELOPMENT
 }

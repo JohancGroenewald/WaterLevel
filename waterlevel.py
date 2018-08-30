@@ -58,10 +58,10 @@ class WaterLevel:
                 new_level = self.tank_height - self.ultrasound.distance_mm()
                 new_level = 0 if new_level < 0 else self.tank_height if new_level > self.tank_height else new_level
                 # >> Smoothing function
-                corrected = '-'
-                if self.level_queue and abs(new_level - self.level_queue[-1]) > (self.level_queue[-1] * 0.7):
-                    corrected = new_level
-                    new_level = self.level_queue[-1]
+                corrected = 'N/A'
+                # if self.level_queue and (abs(new_level - self.level_queue[-1]) > (self.level_queue[-1] * 0.7)):
+                #     corrected = new_level
+                #     new_level = self.level_queue[-1]
                 # << Smoothing function
                 self.level_queue.append(new_level)
                 if len(self.level_queue) > self.queue_depth:

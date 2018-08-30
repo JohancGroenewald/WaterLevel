@@ -3,7 +3,10 @@ import led
 from wifi import WiFi
 from messaging import Messaging
 from waterlevel import WaterLevel
-from flowrate import FlowRate
+from flowrate import (
+    FlowRateMetered, FlowRateRaw, MockFlowRate
+)
+
 
 # noinspection PyUnresolvedReferences
 class RunLoop:
@@ -14,12 +17,21 @@ class RunLoop:
         self.config = config
         # ------------------------------------------------------------------------------------------------------------ #
         # Initialise required services
-        self.led = led.Led(self.config['pinout']['led'])
+        if self.config['pinout']['led'] is None:
+            self.led = led.MockLed()
+        else:
+            self.led = led.Led(self.config['pinout']['led'])
         self.wifi = WiFi(self.config, verbose=self.verbose)
         self.device_id = self.wifi.device_id()
         self.messaging = Messaging(self.config, self.device_id)
         self.water_level = WaterLevel(self.config, verbose=self.verbose)
-        self.flow_rate = FlowRate(self.config, verbose=self.verbose)
+        if self.config['pinout']['flow_meter'] is None:
+            self.flow_rate = MockFlowRate()
+        else:
+            if self.config['pinout']['flow_meter']['metered']:
+                self.flow_rate = FlowRateMetered(self.config, verbose=self.verbose)
+            else:
+                self.flow_rate = FlowRateRaw(self.config, verbose=self.verbose)
         # ------------------------------------------------------------------------------------------------------------ #
         if self.verbose:
             print('<{} with id {}>'.format(self.config['device']['name'], self.device_id))
