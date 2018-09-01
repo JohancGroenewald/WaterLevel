@@ -60,7 +60,8 @@ class WiFi:
         ap_list = []
         for ap in ap_scan:
             for ssid_mask, password in self.config['wifi']:
-                if ure.search(ssid_mask, ap[0]):
+                mask = '^{}$'.format(ssid_mask)
+                if ure.search(mask, ap[0]):
                     ap_list.append((ap[3], ap[0], password))
         ap_list.sort(reverse=True)
         if len(ap_list):

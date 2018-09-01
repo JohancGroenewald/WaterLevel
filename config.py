@@ -21,7 +21,7 @@ MQTT_THELAB = {
     'topic': 'water_flow'
 }
 
-HCSR04 = {
+HCSR04_DEVELOPMENT = {
     'trig_pin': 32,
     'echo_pin': 35,
     'correction': 0
@@ -33,14 +33,21 @@ SR04T = {
     'correction': 0
 }
 
-SSD1306 = {
+SSD1306_DEVELOPMENT = {
     'clock_pin': 33,
     'data_pin': 25
 }
 
-YF201 = {
+YF201_DEVELOPMENT = {
     'pulse_pin': 34,
     'pulses_per_liter': 450,
+    'abandon_pulse': 150,
+    'metered': False
+}
+
+YF401_DEVELOPMENT = {
+    'pulse_pin': 34,
+    'pulses_per_liter': 5880,
     'abandon_pulse': 150,
     'metered': False
 }
@@ -70,21 +77,23 @@ CONFIG_DEVKIT = {
     'name': 'WaterTankTestRig',
     'tank': JOJO_50LT_DRUM,
     'sensor_inclination': 0,
-    'read_interval_in_seconds': 5
+    'level_read_interval': 1,
+    'flow_read_interval': 1
 }
 
 PINOUT_DEVKIT = {
     'led': 2,
-    'ultrasound': HCSR04,
+    'ultrasound': HCSR04_DEVELOPMENT,
     'display': None,
-    'flow_meter': YF201
+    'flow_meter': YF401_DEVELOPMENT
 }
 # -------------------------------------------------------------------------------------------------------------------- #
 CONFIG_THELAB_W1 = {
     'name': 'WaterTank1',
     'tank': JOJO_2500LT_MULTI_SLIM,
     'sensor_inclination': 0,
-    'read_interval_in_seconds': 5
+    'level_read_interval': 1,
+    'flow_read_interval': 1
 }
 
 PINOUT_THELAB_W1 = {
@@ -95,8 +104,8 @@ PINOUT_THELAB_W1 = {
 }
 # -------------------------------------------------------------------------------------------------------------------- #
 CONFIG = {
-    'device': CONFIG_THELAB_W1,
-    'pinout': PINOUT_THELAB_W1,
+    'device': CONFIG_DEVKIT,
+    'pinout': PINOUT_DEVKIT,
     'wifi': [WIFI_DEVELOPMENT, WIFI_THELAB],
     'mqtt': MQTT_DEVELOPMENT
 }

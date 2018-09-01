@@ -17,7 +17,7 @@ class WaterLevel:
         self.tank_height = config['device']['tank']['height']
         self.tank_volume = config['device']['tank']['volume']
         self.lid_inclination = config['device']['tank']['lid_inclination']
-        self.read_interval = config['device']['read_interval_in_seconds']
+        self.read_interval = config['device']['level_read_interval']
         self.start = None
         self.level_queue = []
         self.queue_depth = 10
