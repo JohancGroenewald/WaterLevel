@@ -2,7 +2,7 @@ import time
 import led
 from wifi import WiFi
 from messaging import Messaging
-from waterlevel import WaterLevel
+from waterlevel import WaterLevel, MockWaterLevel
 from flowrate import (
     FlowRateMetered, FlowRateRaw, MockFlowRate
 )
@@ -24,7 +24,10 @@ class RunLoop:
         self.wifi = WiFi(self.config, verbose=self.verbose)
         self.device_id = self.wifi.device_id()
         self.messaging = Messaging(self.config, self.device_id)
-        self.water_level = WaterLevel(self.config, verbose=self.verbose)
+        if self.config['pinout']['ultrasound'] is None:
+            self.water_level = MockWaterLevel
+        else:
+            self.water_level = WaterLevel(self.config, verbose=self.verbose)
         if self.config['pinout']['flow_meter'] is None:
             self.flow_rate = MockFlowRate()
         else:

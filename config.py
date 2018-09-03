@@ -27,7 +27,7 @@ HCSR04_DEVELOPMENT = {
     'correction': 0
 }
 
-SR04T = {
+SR04T_THELAB = {
     'trig_pin': 14,
     'echo_pin': 16,
     'correction': 0
@@ -52,7 +52,7 @@ YF401_DEVELOPMENT = {
     'metered': False
 }
 
-LXSG_FX_20E = {
+LXSG_FX_20E_THELAB = {
     'pulse_pin': 27,
     'pulses_per_liter': 1,
     'abandon_pulse': 150,
@@ -98,14 +98,14 @@ CONFIG_THELAB_W1 = {
 
 PINOUT_THELAB_W1 = {
     'led': None,
-    'ultrasound': SR04T,
+    'ultrasound': None,
     'display': None,
-    'flow_meter': LXSG_FX_20E
+    'flow_meter': LXSG_FX_20E_THELAB
 }
 # -------------------------------------------------------------------------------------------------------------------- #
 CONFIG = {
-    'device': CONFIG_DEVKIT,
-    'pinout': PINOUT_DEVKIT,
+    'device': CONFIG_THELAB_W1,
+    'pinout': PINOUT_THELAB_W1,
     'wifi': [WIFI_DEVELOPMENT, WIFI_THELAB],
     'mqtt': MQTT_DEVELOPMENT
 }

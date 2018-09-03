@@ -101,3 +101,33 @@ class WaterLevel:
     def close(self):
         self._calibrated = False
         self.ultrasound.trigger.value(0)
+
+
+# noinspection PyUnresolvedReferences,PyArgumentList,PyMethodMayBeStatic
+class MockWaterLevel:
+    def __init__(self, config, verbose=0):
+        self.verbose = verbose
+        self.source = 'WaterLevel'
+
+    def __repr__(self):
+        return '<{} at {:x}>'.format(
+            self.source,
+            id(self)
+        )
+
+    def calibrated(self):
+        return True
+
+    def calibrate(self):
+        return True
+
+    def read(self):
+        return False
+
+    def level(self):
+        return {
+            'source': self.source
+        }
+
+    def close(self):
+        pass

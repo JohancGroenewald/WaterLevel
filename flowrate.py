@@ -135,7 +135,7 @@ class FlowRateRaw:
 
     # noinspection PyArgumentList,PyUnresolvedReferences
     def read(self):
-        if self.pulse.value() == 0:
+        if self.pulse.value() == 1:
             if self.pulse_cycle == FlowRateRaw.PULSE_LOW:
                 self.pulse_cycle = FlowRateRaw.PULSE_HIGH
                 self.start = utime.ticks_ms()
@@ -175,6 +175,7 @@ class FlowRateRaw:
         self._calibrated = False
 
 
+# noinspection PyMethodMayBeStatic
 class MockFlowRate:
     def __init__(self):
         self.source = 'MockFlowRate'
