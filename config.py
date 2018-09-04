@@ -40,21 +40,24 @@ YF201_DEVELOPMENT = {
     'pulse_pin': 34,
     'pulses_per_liter': 450,
     'abandon_pulse': 150,
-    'metered': False
+    'metered': False,
+    'pulse_high_level': 1
 }
 
 YF401_DEVELOPMENT = {
     'pulse_pin': 34,
     'pulses_per_liter': 5880,
     'abandon_pulse': 150,
-    'metered': False
+    'metered': False,
+    'pulse_high_level': 1
 }
 
 LXSG_FX_20E_PRODUCTION = {
     'pulse_pin': 27,
     'pulses_per_liter': 1,
     'abandon_pulse': 150,
-    'metered': True
+    'metered': True,
+    'pulse_high_level': 1
 }
 
 JOJO_50LT_DRUM = {

@@ -13,6 +13,7 @@ class FlowRateMetered:
         self.pulse_pin = config['pinout']['flow_meter']['pulse_pin']
         self.pulses_per_liter = config['pinout']['flow_meter']['pulses_per_liter']
         self.abandon_pulse = config['pinout']['flow_meter']['abandon_pulse']
+        self.pulse_high = config['pinout']['flow_meter']['pulse_high_level']
         self._calibrated = False
         self.queue_depth = 20
         self.flow_history = []
@@ -46,7 +47,7 @@ class FlowRateMetered:
 
     # noinspection PyArgumentList,PyUnresolvedReferences
     def read(self):
-        if self.pulse.value() == 0:
+        if self.pulse.value() == self.pulse_high:
             if self.pulse_cycle == FlowRateRaw.PULSE_LOW:
                 self.pulse_cycle = FlowRateRaw.PULSE_HIGH
                 self.start = utime.ticks_ms()
@@ -105,6 +106,7 @@ class FlowRateRaw:
         self.pulse_pin = config['pinout']['flow_meter']['pulse_pin']
         self.pulses_per_liter = config['pinout']['flow_meter']['pulses_per_liter']
         self.abandon_pulse = config['pinout']['flow_meter']['abandon_pulse']
+        self.pulse_high = config['pinout']['flow_meter']['pulse_high_level']
         self._calibrated = False
         self.queue_depth = 20
         self.flow_history = []
@@ -135,7 +137,7 @@ class FlowRateRaw:
 
     # noinspection PyArgumentList,PyUnresolvedReferences
     def read(self):
-        if self.pulse.value() == 1:
+        if self.pulse.value() == self.pulse_high:
             if self.pulse_cycle == FlowRateRaw.PULSE_LOW:
                 self.pulse_cycle = FlowRateRaw.PULSE_HIGH
                 self.start = utime.ticks_ms()
