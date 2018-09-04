@@ -51,7 +51,7 @@ class FlowRateMetered:
             if self.pulse_cycle == FlowRateRaw.PULSE_LOW:
                 self.pulse_cycle = FlowRateRaw.PULSE_HIGH
                 self.start = utime.ticks_ms()
-                if self.start_seconds in None:
+                if self.start_seconds is None:
                     self.start_seconds = utime.time()
                     self.pulse_counter = 0
             elif self.pulse_cycle == FlowRateRaw.PULSE_HIGH:
