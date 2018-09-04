@@ -5,9 +5,7 @@ The wifi access point name can be specified using regex.
 The wifi key in the CONFIG dictionary must be a list of access points.
 """
 # -------------------------------------------------------------------------------------------------------------------- #
-WIFI_DEVELOPMENT = ('__x[1-9]__pointer__', '_Groenewald1')
-
-WIFI_THELAB = ('theLAB', 'theLAB!!')
+from config_local import WIFI_DEVELOPMENT, WIFI_PRODUCTION
 
 MQTT_DEVELOPMENT = {
     'ip': '192.168.0.50',
@@ -15,7 +13,7 @@ MQTT_DEVELOPMENT = {
     'topic': 'water_flow'
 }
 
-MQTT_THELAB = {
+MQTT_PRODUCTION = {
     'ip': '192.168.1.32',
     'port': 0,
     'topic': 'water_flow'
@@ -27,7 +25,7 @@ HCSR04_DEVELOPMENT = {
     'correction': 0
 }
 
-SR04T_THELAB = {
+SR04T_PRODUCTION = {
     'trig_pin': 14,
     'echo_pin': 16,
     'correction': 0
@@ -52,7 +50,7 @@ YF401_DEVELOPMENT = {
     'metered': False
 }
 
-LXSG_FX_20E_THELAB = {
+LXSG_FX_20E_PRODUCTION = {
     'pulse_pin': 27,
     'pulses_per_liter': 1,
     'abandon_pulse': 150,
@@ -88,7 +86,7 @@ PINOUT_DEVKIT = {
     'flow_meter': YF401_DEVELOPMENT
 }
 # -------------------------------------------------------------------------------------------------------------------- #
-CONFIG_THELAB_W1 = {
+CONFIG_PRODUCTION_W1 = {
     'name': 'WaterTank1',
     'tank': JOJO_2500LT_MULTI_SLIM,
     'sensor_inclination': 0,
@@ -96,17 +94,17 @@ CONFIG_THELAB_W1 = {
     'flow_read_interval': 1
 }
 
-PINOUT_THELAB_W1 = {
+PINOUT_PRODUCTION_W1 = {
     'led': None,
     'ultrasound': None,
     'display': None,
-    'flow_meter': LXSG_FX_20E_THELAB
+    'flow_meter': LXSG_FX_20E_PRODUCTION
 }
 # -------------------------------------------------------------------------------------------------------------------- #
 CONFIG = {
-    'device': CONFIG_THELAB_W1,
-    'pinout': PINOUT_THELAB_W1,
-    'wifi': [WIFI_DEVELOPMENT, WIFI_THELAB],
+    'device': CONFIG_PRODUCTION_W1,
+    'pinout': PINOUT_PRODUCTION_W1,
+    'wifi': [WIFI_DEVELOPMENT, WIFI_PRODUCTION],
     'mqtt': MQTT_DEVELOPMENT
 }
 # -------------------------------------------------------------------------------------------------------------------- #
