@@ -64,3 +64,4 @@ fabric.properties
 .idea/
 venv/
 documentation/
+config_local.py
