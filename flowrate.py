@@ -9,7 +9,8 @@ class FlowRateMetered:
 
     def __init__(self, config, verbose=0):
         self.verbose = verbose
-        self.source = 'FlowRateMetered'
+        self.source = 'FlowRate'
+        self.channel = 'FlowRateMetered'
         self.pulse_pin = config['pinout']['flow_meter']['pulse_pin']
         self.pulses_per_liter = config['pinout']['flow_meter']['pulses_per_liter']
         self.abandon_pulse = config['pinout']['flow_meter']['abandon_pulse']
@@ -51,6 +52,8 @@ class FlowRateMetered:
             if self.pulse_cycle == FlowRateRaw.PULSE_LOW:
                 self.pulse_cycle = FlowRateRaw.PULSE_HIGH
                 self.start = utime.ticks_ms()
+                if self.verbose:
+                    print('-> Pulse Up...')
                 if self.start_seconds is None:
                     self.start_seconds = utime.time()
                     self.pulse_counter = 0
@@ -65,6 +68,8 @@ class FlowRateMetered:
         else:
             if self.pulse_cycle == FlowRateRaw.PULSE_HIGH:
                 self.pulse_cycle = FlowRateRaw.PULSE_LOW
+                if self.verbose:
+                    print('-> Pulse Down...')
                 self.flow_readings += 1
                 self.pulse_counter += 1
                 pulse_width = utime.ticks_diff(utime.ticks_ms(), self.start)
@@ -102,7 +107,8 @@ class FlowRateRaw:
 
     def __init__(self, config, verbose=0):
         self.verbose = verbose
-        self.source = 'FlowRateRaw'
+        self.source = 'FlowRate'
+        self.channel = 'FlowRateRaw'
         self.pulse_pin = config['pinout']['flow_meter']['pulse_pin']
         self.pulses_per_liter = config['pinout']['flow_meter']['pulses_per_liter']
         self.abandon_pulse = config['pinout']['flow_meter']['abandon_pulse']
@@ -180,8 +186,8 @@ class FlowRateRaw:
 # noinspection PyMethodMayBeStatic
 class MockFlowRate:
     def __init__(self):
-        self.source = 'MockFlowRate'
-        pass
+        self.source = 'FlowRate'
+        self.channel = 'MockFlowRate'
 
     def __repr__(self):
         return '<{} at {:x}>'.format(self.source, id(self))
