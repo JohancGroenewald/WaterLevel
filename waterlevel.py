@@ -8,6 +8,7 @@ class WaterLevel:
     def __init__(self, config, verbose=0):
         self.verbose = verbose
         self.source = 'WaterLevel'
+        self.channel = 'WaterLevel'
         self.config = config
         self.ultrasound = HCSR04(
             trigger_pin=config['pinout']['ultrasound']['trig_pin'],
@@ -108,6 +109,7 @@ class MockWaterLevel:
     def __init__(self, verbose=0):
         self.verbose = verbose
         self.source = 'WaterLevel'
+        self.channel = 'MockWaterLevel'
 
     def __repr__(self):
         return '<{} at {:x}>'.format(
