@@ -105,7 +105,7 @@ class WaterLevel:
 
 # noinspection PyUnresolvedReferences,PyArgumentList,PyMethodMayBeStatic
 class MockWaterLevel:
-    def __init__(self, config, verbose=0):
+    def __init__(self, verbose=0):
         self.verbose = verbose
         self.source = 'WaterLevel'
 

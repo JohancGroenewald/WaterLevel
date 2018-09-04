@@ -25,7 +25,7 @@ class RunLoop:
         self.device_id = self.wifi.device_id()
         self.messaging = Messaging(self.config, self.device_id)
         if self.config['pinout']['ultrasound'] is None:
-            self.water_level = MockWaterLevel
+            self.water_level = MockWaterLevel()
         else:
             self.water_level = WaterLevel(self.config, verbose=self.verbose)
         if self.config['pinout']['flow_meter'] is None:
