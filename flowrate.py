@@ -53,7 +53,7 @@ class FlowRateMetered:
                 self.pulse_cycle = FlowRateRaw.PULSE_HIGH
                 self.start = utime.ticks_ms()
                 if self.verbose:
-                    print('-> <Pulse up>')
+                    print('<Pulse: UP>')
                 if self.start_seconds is None:
                     self.start_seconds = utime.time()
                     self.pulse_counter = 0
@@ -62,7 +62,7 @@ class FlowRateMetered:
                 if pulse_width > self.abandon_pulse:
                     self.pulse_cycle = FlowRateRaw.PULSE_ABANDON
                     if self.verbose:
-                        print('PULSE_ABANDON after {}ms'.format(pulse_width))
+                        print('<Pulse: ABANDON after {}ms>'.format(pulse_width))
             elif self.pulse_cycle == FlowRateRaw.PULSE_ABANDON:
                 pass
         else:
@@ -72,7 +72,7 @@ class FlowRateMetered:
                 self.pulse_counter += 1
                 pulse_width = utime.ticks_diff(utime.ticks_ms(), self.start)
                 if self.verbose:
-                    print('-> <Pulse down, {}ms'.format(pulse_width))
+                    print('<Pulse: DOWN after {}ms>'.format(pulse_width))
                 # >> Smoothing function
                 # << Smoothing function
                 self.flow_history.append(pulse_width)
@@ -86,7 +86,7 @@ class FlowRateMetered:
             self.flow_rate_lpm = self.pulse_counter * self.pulses_per_liter
             self.start_seconds = None
             if self.verbose:
-                print('-> <FlowRate {}lpm'.format(self.flow_rate_lpm))
+                print('<FlowRate {}lpm>'.format(self.flow_rate_lpm))
         return False
 
     def rate(self):
