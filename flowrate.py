@@ -53,7 +53,7 @@ class FlowRateMetered:
                 self.pulse_cycle = FlowRateRaw.PULSE_HIGH
                 self.start = utime.ticks_ms()
                 if self.verbose:
-                    print('-> Pulse Up...')
+                    print('-> <Pulse up>')
                 if self.start_seconds is None:
                     self.start_seconds = utime.time()
                     self.pulse_counter = 0
@@ -68,11 +68,11 @@ class FlowRateMetered:
         else:
             if self.pulse_cycle == FlowRateRaw.PULSE_HIGH:
                 self.pulse_cycle = FlowRateRaw.PULSE_LOW
-                if self.verbose:
-                    print('-> Pulse Down...')
                 self.flow_readings += 1
                 self.pulse_counter += 1
                 pulse_width = utime.ticks_diff(utime.ticks_ms(), self.start)
+                if self.verbose:
+                    print('-> <Pulse down, {}ms'.format(pulse_width))
                 # >> Smoothing function
                 # << Smoothing function
                 self.flow_history.append(pulse_width)
@@ -85,6 +85,8 @@ class FlowRateMetered:
         if self.start_seconds and (utime.time() - self.start_seconds) > 60:
             self.flow_rate_lpm = self.pulse_counter * self.pulses_per_liter
             self.start_seconds = None
+            if self.verbose:
+                print('-> <FlowRate {}lpm'.format(self.flow_rate_lpm))
         return False
 
     def rate(self):
