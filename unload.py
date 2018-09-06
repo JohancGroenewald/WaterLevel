@@ -3,37 +3,30 @@ import gc
 
 
 def run():
-    application = [
-        'config',
-        'application',
-        'run',
-        'led',
-        'wifi',
-        'waterlevel',
-        'flowrate',
-        'messaging',
-        'umqtt_robust',
-        'umqtt_simple',
-        'socket',
-        'usocket',
-        'network',
-        'hcsr04',
-        'listmodules',
-        'listfiles',
-        'cat',
+    system_modules = [
+        # 'config',
+        # 'config_local',
+        'flashbdev',
+        # 'network',
+        # 'socket',
+        'webrepl',
+        'webrepl_cfg',
+        'websocket_helper',
+        # 'wifi',
+        'unload',
         'done '         # Not a module. REPL feedback only
     ]
     message = 'Unloading application module ... '
     buffer = ''
     buffer_len = len(buffer)
-    for module in application:
+    for module in sys.modules:
         buffer = '\r{}{}'.format(message, module)
         if len(buffer) < buffer_len:
             padding = (' ' * (buffer_len - len(buffer)))
         else:
             padding = ''
         print('{}{}'.format(buffer, padding), end='')
-        if module in sys.modules:
+        if module not in system_modules:
             del sys.modules[module]
         buffer_len = len(buffer)
     print('\nRunning the GC ... ', end='')
