@@ -4,7 +4,7 @@ from wifi import WiFi
 from messaging import Messaging
 from waterlevel import WaterLevel, MockWaterLevel
 from flowrate import (
-    FlowRateMetered, FlowRateRaw, MockFlowRate
+    FlowRateFallingEdge, MockFlowRate
 )
 
 
@@ -31,10 +31,7 @@ class RunLoop:
         if self.config['pinout']['flow_meter'] is None:
             self.flow_rate = MockFlowRate()
         else:
-            if self.config['pinout']['flow_meter']['metered']:
-                self.flow_rate = FlowRateMetered(self.config, verbose=self.verbose)
-            else:
-                self.flow_rate = FlowRateRaw(self.config, verbose=self.verbose)
+            self.flow_rate = FlowRateFallingEdge(self.config, verbose=self.verbose)
         # ------------------------------------------------------------------------------------------------------------ #
         if self.verbose:
             print('<{} with id {}>'.format(self.config['device']['name'], self.device_id))

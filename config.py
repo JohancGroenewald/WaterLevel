@@ -10,13 +10,13 @@ from config_local import WIFI_DEVELOPMENT, WIFI_PRODUCTION
 MQTT_DEVELOPMENT = {
     'ip': '192.168.0.50',
     'port': 1883,
-    'topic': 'water_flow'
+    'topic': 'water_tanks'
 }
 
 MQTT_PRODUCTION = {
     'ip': '192.168.1.32',
     'port': 0,
-    'topic': 'water_flow'
+    'topic': 'water_tanks'
 }
 
 HCSR04_DEVELOPMENT = {
@@ -40,7 +40,6 @@ YF201_DEVELOPMENT = {
     'pulse_pin': 34,
     'pulses_per_liter': 450,
     'abandon_pulse': 150,
-    'metered': False,
     'pulse_high_level': 1
 }
 
@@ -48,7 +47,6 @@ YF401_DEVELOPMENT = {
     'pulse_pin': 34,
     'pulses_per_liter': 5880,
     'abandon_pulse': 150,
-    'metered': False,
     'pulse_high_level': 1
 }
 
@@ -56,7 +54,6 @@ LXSG_FX_20E_PRODUCTION = {
     'pulse_pin': 27,
     'pulses_per_liter': 1,
     'abandon_pulse': 150,
-    'metered': True,
     'pulse_high_level': 1
 }
 
