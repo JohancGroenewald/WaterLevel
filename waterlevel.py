@@ -31,7 +31,7 @@ class WaterLevel:
 
     def __repr__(self):
         return '<{}: {}, {}mm, {}L at {:x}>'.format(
-            self.source,
+            self.channel,
             self.tank_model,
             self.tank_height,
             self.tank_volume,
@@ -101,6 +101,7 @@ class WaterLevel:
     def level(self):
         return {
             'source': self.source,
+            'channel': self.channel,
             'level_history': self.level_queue,
             'level_average': self.level_average,
             'level_percentile': self.level_percentile,
@@ -122,7 +123,7 @@ class MockWaterLevel:
 
     def __repr__(self):
         return '<{} at {:x}>'.format(
-            self.source,
+            self.channel,
             id(self)
         )
 
@@ -137,7 +138,8 @@ class MockWaterLevel:
 
     def level(self):
         return {
-            'source': self.source
+            'source': self.source,
+            'channel': self.channel
         }
 
     def close(self):

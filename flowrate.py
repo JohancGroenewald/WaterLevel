@@ -6,6 +6,7 @@ class FlowRate:
     PULSE_LOW = 0
     PULSE_HIGH = 1
     PULSE_ABANDON = 2
+    PULSE_TIMEOUT = 3
 
 
 class FlowRateFallingEdge(FlowRate):
@@ -20,7 +21,7 @@ class FlowRateFallingEdge(FlowRate):
         self._calibrated = False
         self.queue_depth = 60
         self.flow_history = []
-        self.flow_rate_lpm = 0.0
+        self.flow_rate = 0.0
         self.flow_readings = 0
         self.pulse = machine.Pin(
             self.pulse_pin, mode=machine.Pin.IN, pull=machine.Pin.PULL_UP
@@ -32,7 +33,7 @@ class FlowRateFallingEdge(FlowRate):
 
     def __repr__(self):
         return '<{}: {}ppl at {:x}>'.format(
-            self.source,
+            self.channel,
             self.pulses_per_liter,
             id(self)
         )
@@ -71,21 +72,22 @@ class FlowRateFallingEdge(FlowRate):
                 return True
         seconds = utime.time()
         if self.start_seconds and (seconds - self.start_seconds) > 60:
-            self.flow_rate_lpm = self.pulse_counter * self.pulses_per_liter
-            self.flow_history.append(self.flow_rate_lpm)
+            self.flow_rate = self.pulse_counter * self.pulses_per_liter
+            self.flow_history.append(self.flow_rate)
             if len(self.flow_history) > self.queue_depth:
                 self.flow_history = self.flow_history[1:]
             self.start_seconds = seconds
             self.pulse_counter = 0
             if self.verbose:
-                print('<FlowRate {}lpm>'.format(self.flow_rate_lpm))
+                print('<FlowRate {}lpm>'.format(self.flow_rate))
         return False
 
     def rate(self):
         return {
             'source': self.source,
+            'channel': self.channel,
             'flow_history': self.flow_history,
-            'flow_rate_lpm': self.flow_rate_lpm,
+            'flow_rate': self.flow_rate,
             'flow_readings': self.flow_readings
         }
 
@@ -100,7 +102,7 @@ class MockFlowRate:
         self.channel = 'MockFlowRate'
 
     def __repr__(self):
-        return '<{} at {:x}>'.format(self.source, id(self))
+        return '<{} at {:x}>'.format(self.channel, id(self))
 
     def calibrated(self):
         return True
@@ -117,7 +119,8 @@ class MockFlowRate:
 
     def rate(self):
         return {
-            'source': self.source
+            'source': self.source,
+            'channel': self.channel
         }
 
     def close(self):
