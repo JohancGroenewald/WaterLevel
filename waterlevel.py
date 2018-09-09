@@ -76,12 +76,21 @@ class WaterLevel:
                 self.level_average = sum(self.level_queue) / len(self.level_queue)
                 self.level_percentile = self.level_average / self.tank_height
                 self.level_volume = self.tank_volume * self.level_percentile
-                if self.verbose:
+                if self.verbose == 2:
                     print('{}, cor: {}, avg: {}, per: {}, vol: {}, #: {}, {}'.format(
                         self.level_queue,
                         corrected,
                         self.level_average,
                         self.level_percentile,
+                        self.level_volume,
+                        self.level_readings,
+                        deltas
+                    ))
+                elif self.verbose == 1:
+                    print('cor: {}, avg: {}, per: {}, vol: {}, #: {}, {}'.format(
+                        corrected,
+                        int(self.level_average),
+                        int(self.level_percentile*100),
                         self.level_volume,
                         self.level_readings,
                         deltas

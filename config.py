@@ -15,7 +15,7 @@ MQTT_DEVELOPMENT = {
 
 MQTT_PRODUCTION = {
     'ip': '192.168.1.32',
-    'port': 0,
+    'port': 1883,
     'topic': 'water_tanks'
 }
 
@@ -53,8 +53,8 @@ YF401_DEVELOPMENT = {
 LXSG_FX_20E_PRODUCTION = {
     'pulse_pin': 27,
     'pulses_per_liter': 1,
-    'abandon_pulse': 150,
-    'pulse_high_level': 1
+    'abandon_pulse': 500,
+    'pulse_high_level': 0
 }
 
 JOJO_50LT_DRUM = {
@@ -96,7 +96,7 @@ CONFIG_PRODUCTION_W1 = {
 
 PINOUT_PRODUCTION_W1 = {
     'led': None,
-    'ultrasound': None,
+    'ultrasound': SR04T_PRODUCTION,
     'display': None,
     'flow_meter': LXSG_FX_20E_PRODUCTION
 }
@@ -105,6 +105,6 @@ CONFIG = {
     'device': CONFIG_PRODUCTION_W1,
     'pinout': PINOUT_PRODUCTION_W1,
     'wifi': [WIFI_DEVELOPMENT, WIFI_PRODUCTION],
-    'mqtt': MQTT_DEVELOPMENT
+    'mqtt': MQTT_PRODUCTION
 }
 # -------------------------------------------------------------------------------------------------------------------- #
