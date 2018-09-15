@@ -10,7 +10,7 @@ Update history
 from config import CONFIG
 import run
 
-run_loop = run.RunLoop(CONFIG, verbose=1)
+run_loop = run.RunLoop(CONFIG, verbose=0)
 # noinspection PyBroadException
 try:
     run_loop.run()
