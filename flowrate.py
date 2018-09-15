@@ -69,7 +69,6 @@ class FlowRateFallingEdge(FlowRate):
                     print('<Pulse: DOWN after {}ms>'.format(pulse_width))
                 # >> Smoothing function
                 # << Smoothing function
-                return True
         seconds = utime.time()
         if self.start_seconds and (seconds - self.start_seconds) > 60:
             self.flow_rate = self.pulse_counter * self.pulses_per_liter
@@ -80,6 +79,7 @@ class FlowRateFallingEdge(FlowRate):
             self.pulse_counter = 0
             if self.verbose:
                 print('<FlowRate {}lpm>'.format(self.flow_rate))
+            return True
         return False
 
     def rate(self):
